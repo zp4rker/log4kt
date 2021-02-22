@@ -9,6 +9,7 @@ import org.slf4j.event.Level
  */
 class Log4KtLogger(private val name: String) : Logger {
     override fun getName(): String = name
+
     /* TRACE always disabled */
     override fun isTraceEnabled(): Boolean = false
     override fun isTraceEnabled(marker: Marker?): Boolean = false
@@ -201,7 +202,52 @@ class Log4KtLogger(private val name: String) : Logger {
         Log4KtEventListener.pushEvent(prepareEvent)
         if (prepareEvent.isCancelled) return
 
-        println("${level.name}  $msg")
+        val name = this.name.run { split(".").getOrElse(2) { this } }.run {
+            when {
+                length > 7 -> "${this.substring(0..4)}.."
+                else -> this
+            }
+        }
+
+        val message = prepareEvent.msg?.run {
+            if (args.isEmpty()) {
+                this
+            } else {
+                this.let {
+                    var s = it
+                    for (arg in args) {
+                        s = s.replaceFirst("{}", arg.toString())
+                    }
+                    s
+                }
+            }
+        } ?: "No message"
+
+        runCatching {
+            with(org.fusesource.jansi.Ansi.ansi()) {
+                reset()
+
+                fgBrightBlack()
+                a(name.padEnd(8))
+
+                when (prepareEvent.level) {
+                    Level.INFO -> fgBrightGreen()
+                    Level.WARN -> fgBrightYellow()
+                    Level.ERROR -> fgBrightRed()
+                    else -> fgBlack()
+                }
+                a(prepareEvent.level.name.padEnd(8))
+
+                reset()
+                a(message)
+
+                t?.let { a("\n${it.stackTraceToString()}") }
+
+                println(this)
+            }
+        }.onFailure {
+            println("${name.padEnd(8)}${prepareEvent.level.name.padEnd(8)}$message${t?.let { "\n${it.stackTraceToString()}" } ?: ""}")
+        }
 
         val logEvent = Log4KtLogEvent(this, level, msg, t, args)
         Log4KtEventListener.pushEvent(logEvent)
