@@ -8,6 +8,6 @@ import org.slf4j.Logger
  */
 class Log4KtLoggerFactory : ILoggerFactory {
     override fun getLogger(name: String): Logger {
-        TODO("Not yet implemented")
+        return Log4KtLogger(name)
     }
 }

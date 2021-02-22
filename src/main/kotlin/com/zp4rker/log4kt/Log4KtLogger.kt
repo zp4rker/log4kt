@@ -28,23 +28,23 @@ class Log4KtLogger(private val name: String) : Logger {
     override fun isDebugEnabled(marker: Marker?): Boolean = true
 
     override fun debug(msg: String?) {
-        print(Level.DEBUG, msg)
+        log(Level.DEBUG, msg)
     }
 
     override fun debug(format: String?, arg: Any?) {
-        print(Level.DEBUG, format, null, arg)
+        log(Level.DEBUG, format, null, arg)
     }
 
     override fun debug(format: String?, arg1: Any?, arg2: Any?) {
-        print(Level.DEBUG, format, null, arg1, arg2)
+        log(Level.DEBUG, format, null, arg1, arg2)
     }
 
     override fun debug(format: String?, vararg arguments: Any?) {
-        print(Level.DEBUG, format, null, arguments)
+        log(Level.DEBUG, format, null, arguments)
     }
 
     override fun debug(msg: String?, t: Throwable?) {
-        print(Level.DEBUG, msg, t)
+        log(Level.DEBUG, msg, t)
     }
 
     override fun debug(marker: Marker?, msg: String?) {
@@ -71,23 +71,23 @@ class Log4KtLogger(private val name: String) : Logger {
     override fun isInfoEnabled(marker: Marker?): Boolean = true
 
     override fun info(msg: String?) {
-        print(Level.INFO, msg)
+        log(Level.INFO, msg)
     }
 
     override fun info(format: String?, arg: Any?) {
-        print(Level.INFO, format, null, arg)
+        log(Level.INFO, format, null, arg)
     }
 
     override fun info(format: String?, arg1: Any?, arg2: Any?) {
-        print(Level.INFO, format, null, arg1, arg2)
+        log(Level.INFO, format, null, arg1, arg2)
     }
 
     override fun info(format: String?, vararg arguments: Any?) {
-        print(Level.INFO, format, null, arguments)
+        log(Level.INFO, format, null, arguments)
     }
 
     override fun info(msg: String?, t: Throwable?) {
-        print(Level.INFO, msg, t)
+        log(Level.INFO, msg, t)
     }
 
     override fun info(marker: Marker?, msg: String?) {
@@ -114,89 +114,96 @@ class Log4KtLogger(private val name: String) : Logger {
     override fun isWarnEnabled(marker: Marker?): Boolean = true
 
     override fun warn(msg: String?) {
-        TODO("Not yet implemented")
+        log(Level.WARN, msg)
     }
 
     override fun warn(format: String?, arg: Any?) {
-        TODO("Not yet implemented")
-    }
-
-    override fun warn(format: String?, vararg arguments: Any?) {
-        TODO("Not yet implemented")
+        log(Level.WARN, format, null, arg)
     }
 
     override fun warn(format: String?, arg1: Any?, arg2: Any?) {
-        TODO("Not yet implemented")
+        log(Level.WARN, format, null, arg1, arg2)
+    }
+
+    override fun warn(format: String?, vararg arguments: Any?) {
+        log(Level.WARN, format, null, arguments)
     }
 
     override fun warn(msg: String?, t: Throwable?) {
-        TODO("Not yet implemented")
+        log(Level.WARN, msg, t)
     }
 
     override fun warn(marker: Marker?, msg: String?) {
-        TODO("Not yet implemented")
+        warn(msg)
     }
 
     override fun warn(marker: Marker?, format: String?, arg: Any?) {
-        TODO("Not yet implemented")
+        warn(format, arg)
     }
 
     override fun warn(marker: Marker?, format: String?, arg1: Any?, arg2: Any?) {
-        TODO("Not yet implemented")
+        warn(format, arg1, arg2)
     }
 
     override fun warn(marker: Marker?, format: String?, vararg arguments: Any?) {
-        TODO("Not yet implemented")
+        warn(format, arguments)
     }
 
     override fun warn(marker: Marker?, msg: String?, t: Throwable?) {
-        TODO("Not yet implemented")
+        warn(msg, t)
     }
 
     override fun isErrorEnabled(): Boolean = true
     override fun isErrorEnabled(marker: Marker?): Boolean = true
 
     override fun error(msg: String?) {
-        TODO("Not yet implemented")
+        log(Level.ERROR, msg)
     }
 
     override fun error(format: String?, arg: Any?) {
-        TODO("Not yet implemented")
+        log(Level.ERROR, format, null, arg)
     }
 
     override fun error(format: String?, arg1: Any?, arg2: Any?) {
-        TODO("Not yet implemented")
+        log(Level.ERROR, format, null, arg1, arg2)
     }
 
     override fun error(format: String?, vararg arguments: Any?) {
-        TODO("Not yet implemented")
+        log(Level.ERROR, format, null, arguments)
     }
 
     override fun error(msg: String?, t: Throwable?) {
-        TODO("Not yet implemented")
+        log(Level.ERROR, msg, t)
     }
 
     override fun error(marker: Marker?, msg: String?) {
-        TODO("Not yet implemented")
+        error(msg)
     }
 
     override fun error(marker: Marker?, format: String?, arg: Any?) {
-        TODO("Not yet implemented")
+        error(format, arg)
     }
 
     override fun error(marker: Marker?, format: String?, arg1: Any?, arg2: Any?) {
-        TODO("Not yet implemented")
+        error(format, arg1, arg2)
     }
 
     override fun error(marker: Marker?, format: String?, vararg arguments: Any?) {
-        TODO("Not yet implemented")
+        error(format, arguments)
     }
 
     override fun error(marker: Marker?, msg: String?, t: Throwable?) {
-        TODO("Not yet implemented")
+        error(msg, t)
     }
 
-    private fun print(level: Level, msg: String?, t: Throwable? = null, vararg args: Any?) {
-        TODO("Not yet implemented")
+    private fun log(level: Level, msg: String?, t: Throwable? = null, vararg args: Any?) {
+        val prepareEvent = Log4KtPrepareLogEvent(this, level, msg, t, args)
+        Log4KtEventListener.pushEvent(prepareEvent)
+        if (prepareEvent.isCancelled) return
+
+        println("${level.name}  $msg")
+
+        val logEvent = Log4KtLogEvent(this, level, msg, t, args)
+        Log4KtEventListener.pushEvent(logEvent)
     }
 }
