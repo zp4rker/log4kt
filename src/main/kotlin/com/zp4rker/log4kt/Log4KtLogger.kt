@@ -223,7 +223,7 @@ class Log4KtLogger(private val name: String) : Logger {
             }
         } ?: "No message"
 
-        runCatching {
+        val output = runCatching {
             with(org.fusesource.jansi.Ansi.ansi()) {
                 reset()
 
@@ -243,13 +243,14 @@ class Log4KtLogger(private val name: String) : Logger {
 
                 t?.let { a("\n${it.stackTraceToString()}") }
 
-                println(this)
+                this.toString()
             }
         }.onFailure {
-            println("${name.padEnd(8)}${prepareEvent.level.name.padEnd(8)}$message${t?.let { "\n${it.stackTraceToString()}" } ?: ""}")
-        }
+            "${name.padEnd(8)}${prepareEvent.level.name.padEnd(8)}$message${t?.let { "\n${it.stackTraceToString()}" } ?: ""}"
+        }.getOrNull()
 
-        val logEvent = Log4KtLogEvent(this, level, msg, t, args)
+        val logEvent = Log4KtLogEvent(output)
+        println(output)
         Log4KtEventListener.pushEvent(logEvent)
     }
 }
