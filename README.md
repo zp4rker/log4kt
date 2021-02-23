@@ -12,6 +12,26 @@ A very simple SLF4J implementation written in Kotlin.
 
 </div>
 
+# Installation
+
+## Gradle
+
+```groovy
+dependencies {
+    compile "com.zp4rker:log4kt:VERSION"
+}
+```
+
+## Maven
+
+```xml
+<dependency>
+    <groupId>com.zp4rker</groupId>
+    <artifactId>log4kt</artifactId>
+    <version>VERSION</version>
+</dependency>
+```
+
 # Current features
 
 ## EventListener
@@ -33,3 +53,16 @@ Log4KtEventListener.on<Log4KtLogEvent> {
     - Fired before a log is printed/sent.
     - Level and message can be modified in this event.
     - Event is also cancellable.
+    
+## Coloured Output (Jansi)
+
+By default, it will colourise the output using Jansi. To disable this feature, simply exclude Jansi as a dependency.
+
+For example:
+```groovy
+dependencies {
+    compile ("com.zp4rker:log4kt:1.1.1") {
+        exclude group: "org.fusesource.jansi", module: "jansi"
+    }
+}
+```
