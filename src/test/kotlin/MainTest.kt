@@ -15,8 +15,7 @@ class MainTest {
         assert(logger != null)
 
         Log4KtEventListener.on<Log4KtLogEvent> {
-            if (it.t == null) return@on
-            logger.debug("an exception was printed")
+            logger.debug("a log was printed")
         }
 
         logger.error("something went wrong!", IllegalStateException("something isn't right"))
