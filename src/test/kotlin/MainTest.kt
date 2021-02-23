@@ -22,7 +22,7 @@ class MainTest {
     }
 
     @Test fun test2() {
-        val logger = LoggerFactory.getLogger("test")
+        val logger = LoggerFactory.getLogger("test2")
         assert(logger != null)
 
         Log4KtEventListener.on<Log4KtPrepareLogEvent> {
@@ -35,5 +35,18 @@ class MainTest {
         logger.warn("oh no, be careful!")
         logger.error("oh no, you did bad")
         logger.trace("this should not work")
+    }
+
+    @Test fun test3() {
+        val logger = LoggerFactory.getLogger("test3")
+        assert(logger != null)
+
+        Log4KtEventListener.on<Log4KtLogEvent> {
+            logger.debug("a log was printed")
+        }
+
+        logger.info("hi")
+        logger.info("")
+        logger.warn("chocolate is yummy")
     }
 }

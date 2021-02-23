@@ -223,7 +223,7 @@ class Log4KtLogger(private val name: String) : Logger {
             }
         } ?: "No message"
 
-        val output = runCatching {
+        val output = if (message == "") "" else runCatching {
             with(org.fusesource.jansi.Ansi.ansi()) {
                 reset()
 
