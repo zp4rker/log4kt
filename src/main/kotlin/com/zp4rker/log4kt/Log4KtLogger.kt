@@ -249,8 +249,10 @@ class Log4KtLogger(private val name: String) : Logger {
             "${name.padEnd(8)}${prepareEvent.level.name.padEnd(8)}$message${t?.let { "\n${it.stackTraceToString()}" } ?: ""}"
         }.getOrNull()
 
-        val logEvent = Log4KtLogEvent(output)
-        println(output)
-        Log4KtEventListener.pushEvent(logEvent)
+        if (prepareEvent.level != Level.DEBUG || Log4KtLoggerFactory.debugEnabled) {
+            val logEvent = Log4KtLogEvent(output)
+            println(output)
+            Log4KtEventListener.pushEvent(logEvent)
+        }
     }
 }
