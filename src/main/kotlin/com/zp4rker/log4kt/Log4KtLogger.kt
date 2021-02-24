@@ -7,7 +7,13 @@ import org.slf4j.event.Level
 /**
  * @author zp4rker
  */
-class Log4KtLogger(private val name: String) : Logger {
+class Log4KtLogger(name: String) : Logger {
+    private val name: String
+
+    init {
+        this.name = name.toLowerCase()
+    }
+
     override fun getName(): String = name
 
     /* TRACE always disabled */
