@@ -26,8 +26,8 @@ class MainTest {
         assert(logger != null)
 
         Log4KtEventListener.on<Log4KtPrepareLogEvent> {
-            println("preparing a ${it.level.name} log")
-            if (it.level == Level.DEBUG) println("cancelling log").apply { it.isCancelled = true }
+            println("preparing a ${level.name} log")
+            if (level == Level.DEBUG) println("cancelling log").apply { isCancelled = true }
         }
 
         logger.info("hi!")
