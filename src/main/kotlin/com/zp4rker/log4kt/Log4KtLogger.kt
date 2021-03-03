@@ -257,8 +257,8 @@ class Log4KtLogger(name: String) : Logger {
 
         if (prepareEvent.level != Level.DEBUG || Log4KtLoggerFactory.debugEnabled) {
             val logEvent = Log4KtLogEvent(output)
-            println(output)
             Log4KtEventListener.pushEvent(logEvent)
+            if (!logEvent.isCancelled) println(logEvent.output)
         }
     }
 }
