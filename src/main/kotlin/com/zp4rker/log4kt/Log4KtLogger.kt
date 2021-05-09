@@ -11,7 +11,7 @@ class Log4KtLogger(name: String) : Logger {
     private val name: String
 
     init {
-        this.name = name.toLowerCase()
+        this.name = name.lowercase()
     }
 
     override fun getName(): String = name
