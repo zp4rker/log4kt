@@ -29,17 +29,6 @@ dependencies {
     testImplementation("junit:junit:4.11")
 }
 
-tasks.create<Sync>("filterSources") {
-    from("src/main/kotlin")
-    into("$buildDir/src/main/kotlin")
-    filter(ReplaceTokens::class, mapOf("tokens" to mapOf("VERSION" to project.version)))
-}
-
-tasks.compileKotlin {
-    dependsOn("filterSources")
-    kotlin.sourceSets["main"].kotlin.setSrcDirs(listOf("$buildDir/src/main/kotlin"))
-}
-
 tasks.create<Jar>("javadocJar") {
     archiveClassifier.set("javadoc")
     from(tasks.getByName("javadoc"))
