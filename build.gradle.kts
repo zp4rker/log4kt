@@ -1,5 +1,3 @@
-import org.apache.tools.ant.filters.ReplaceTokens
-
 plugins {
     kotlin("jvm") version "1.5.0"
     kotlin("plugin.serialization") version "1.5.0"
@@ -13,7 +11,7 @@ plugins {
 }
 
 group = "com.zp4rker"
-version = "1.1.7"
+version = "1.1.8"
 
 repositories {
     mavenCentral()
@@ -66,22 +64,22 @@ tasks.named<Upload>("uploadArchives") {
                 }
 
                 pom.project {
-                    setProperty("name", "Discore")
-                    setProperty("artifactId", "discore")
+                    setProperty("name", "Log4Kt")
+                    setProperty("artifactId", "log4kt")
                     setProperty("packaging", "jar")
-                    setProperty("description", "A Discord bot core built upon JDA, written in Kotlin.")
-                    setProperty("url", "https://github.com/zp4rker/discore")
+                    setProperty("description", "A very simple SLF4J implementation written in Kotlin.")
+                    setProperty("url", "https://github.com/zp4rker/log4kt")
 
                     withGroovyBuilder {
-                        "name"("Discore")
-                        "artifactId"("discore")
+                        "name"("Log4Kt")
+                        "artifactId"("log4kt")
                         "packaging"("jar")
-                        "description"("A Discord bot core built upon JDA, written in Kotlin.")
-                        "url"("https://github.com/zp4rker/discore")
+                        "description"("A very simple SLF4J implementation written in Kotlin.")
+                        "url"("https://github.com/zp4rker/log4kt")
 
                         "scm" {
-                            "connection"("scm:git:git://github.com/zp4rker/discore.git")
-                            "url"("https://github.com/zp4rker/discore")
+                            "connection"("scm:git:git://github.com/zp4rker/log4kt.git")
+                            "url"("https://github.com/zp4rker/log4kt")
                         }
 
                         "licenses" {
